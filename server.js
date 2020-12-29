@@ -1,5 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = [];
+projectData = {};
 const port = 8000;
 
 // Require Express to run server and routes
@@ -26,29 +26,19 @@ app.use(express.static("website"));
 const server = app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
 
 // Endpoint to get most recent projectData journalEntry
-const getRecentData = function (req, res) {
-  let recentEntry = projectData[projectData.length - 1];
-  res.send(JSON.stringify(recentEntry));
-};
-
-app.get("/recent", getRecentData);
-
-// Get all journalEntry items in projectData
-const getAllData = function (req, res) {
+const getData = function (req, res) {
   res.send(JSON.stringify(projectData));
 };
 
-app.get("/all", getAllData);
+app.get("/data", getData);
 
 // Endpoint to post data to the projectData dict
 const postData = function (req, res) {
   const newData = req.body;
-  let journalEntry = {};
-  journalEntry.temperature = newData.main.temp;
-  journalEntry.date = newData.date;
-  journalEntry.feelings = newData.feelings;
-  projectData.push(journalEntry);
-  res.send(journalEntry);
+  projectData.temperature = newData.main.temp;
+  projectData.date = newData.date;
+  projectData.feelings = newData.feelings;
+  res.send(projectData);
 };
 
 app.post("/journal", postData);

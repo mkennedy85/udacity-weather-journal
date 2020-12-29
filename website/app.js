@@ -57,7 +57,7 @@ const postData = function () {
   let zip = document.getElementById("zip").value;
   getWeatherApiData((url = baseUrl), (zip = zip), (key = apiKey)).then(function (data) {
     postWeatherJournalEntry("/journal", weatherData).then(function (data) {
-      updateUI("/recent", postedEntry);
+      updateUI("/data", postedEntry);
     });
   });
 };
